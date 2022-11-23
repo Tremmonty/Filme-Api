@@ -1,3 +1,8 @@
+using Filme_Api.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
+
 namespace Filme_Api
 {
     public class Program
@@ -8,7 +13,9 @@ namespace Filme_Api
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddDbContext<FilmeContext>(opts => opts.UseMySql(builder.Configuration.GetConnectionString("FilmeConnection"), new MySqlServerVersion(new Version(1, 0, 0))));
+            
+                builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
