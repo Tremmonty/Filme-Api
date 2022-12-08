@@ -18,11 +18,10 @@ namespace FilmesAPI
             }
 
             public IConfiguration Configuration { get; }
-
-            // This method gets called by the runtime. Use this method to add services to the container.
             public void ConfigureServices(IServiceCollection services)
             {
-            services.AddDbContext<FilmeContext>(opts => opts.UseMySQL(Configuration.GetConnectionString("FilmeConnection")));
+            IServiceCollection serviceCollection = services.AddDbContext<FilmeContext>(opts => opts.UseMySql(connectionString: @"server=localhost;database=BookStoreDb2;uid=root;password=;",
+            new MySqlServerVersion(new Version(10, 4, 17)))); 
                 services.AddControllers();
                 services.AddSwaggerGen(c =>
                 {
@@ -31,7 +30,6 @@ namespace FilmesAPI
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             }
 
-            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
             public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             {
                 if (env.IsDevelopment())
